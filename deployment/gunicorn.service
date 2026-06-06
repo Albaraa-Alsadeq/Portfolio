@@ -1,0 +1,22 @@
+[Unit]
+Description=Gunicorn daemon for Django Portfolio
+After=network.target
+
+[Service]
+User=portfolio
+Group=www-data
+WorkingDirectory=/home/portfolio/DJANGO-Portfolio-master
+EnvironmentFile=/home/portfolio/DJANGO-Portfolio-master/.env
+ExecStart=/home/portfolio/venv/bin/gunicorn \
+    --workers 3 \
+    --bind 127.0.0.1:8000 \
+    --log-level info \
+    --access-logfile /home/portfolio/logs/gunicorn-access.log \
+    --error-logfile /home/portfolio/logs/gunicorn-error.log \
+    portfolio.wsgi:application
+
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
